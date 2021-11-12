@@ -3,31 +3,31 @@ package com.swervedrivespecialties.exampleswerve.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.swervedrivespecialties.exampleswerve.RobotMap;
-import com.swervedrivespecialties.exampleswerve.commands.DriveCommand;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import org.frcteam2910.common.drivers.Gyroscope;
 import org.frcteam2910.common.drivers.SwerveModule;
 import org.frcteam2910.common.math.Vector2;
 import org.frcteam2910.common.robot.drivers.Mk2SwerveModuleBuilder;
 import org.frcteam2910.common.robot.drivers.NavX;
 
-public class DrivetrainSubsystem extends Subsystem {
+public class DrivetrainSubsystem extends SubsystemBase {
     private static final double TRACKWIDTH = 21.5;
     private static final double WHEELBASE = 23.5;
 
-    private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(60.7);
-    private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(139.1);
-    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(60.7);
-    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(60.7);
+    private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(60.6);//60.7
+    private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(141.2);//139.1
+    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(60.6);//60.7
+    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(60.3);//60.7
 
     private static DrivetrainSubsystem instance;
 
@@ -75,7 +75,7 @@ public class DrivetrainSubsystem extends Subsystem {
 
     public DrivetrainSubsystem() {
         gyroscope.calibrate();
-        gyroscope.setInverted(true); // You might not need to invert the gyro
+        gyroscope.setInverted(false); // You might not need to invert the gyro
 
         frontLeftModule.setName("Front Left");
         frontRightModule.setName("Front Right");
@@ -132,8 +132,4 @@ public class DrivetrainSubsystem extends Subsystem {
         gyroscope.setAdjustmentAngle(gyroscope.getUnadjustedAngle());
     }
 
-    @Override
-    protected void initDefaultCommand() {
-        setDefaultCommand(new DriveCommand());
-    }
 }
