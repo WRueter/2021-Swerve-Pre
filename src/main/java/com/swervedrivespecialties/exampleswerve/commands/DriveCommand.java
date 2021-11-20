@@ -34,7 +34,7 @@ public class DriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double forward = -rc.getLeftY(); //-Robot.getOi().getPrimaryJoystick().getRawAxis(1);
+    double forward = -rc.getLeftY();
     forward = Utilities.deadband(forward);
     // Square the forward stick
     forward = SPEED_SCALE * Math.copySign(Math.pow(forward, 2.0), forward);

@@ -5,6 +5,7 @@
 package com.swervedrivespecialties.exampleswerve;
 
 import com.swervedrivespecialties.exampleswerve.commands.DriveCommand;
+import com.swervedrivespecialties.exampleswerve.commands.TestAutoDrive;
 import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -24,6 +25,7 @@ public class RobotContainer {
     private XboxController primaryController = new XboxController(0);
 
     private JoystickButton _a = new JoystickButton(primaryController, XboxController.Button.kA.value);
+    private JoystickButton _y = new JoystickButton(primaryController, XboxController.Button.kY.value);
 
     private RobotContainer() {
 
@@ -42,6 +44,7 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         _a.whenPressed(() -> DrivetrainSubsystem.getInstance().resetGyroscope());
+        _y.whenPressed(new TestAutoDrive());
     }
 
     private void configureSubsystemDefaultCommands(){
