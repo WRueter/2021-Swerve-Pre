@@ -55,9 +55,9 @@ public class TestAutoDrive extends CommandBase {
   }
 
   public static final ITrajectoryConstraint[] CONSTRAINTS = {
-    new MaxVelocityConstraint(12.0 * 12.0/2),
-    new MaxAccelerationConstraint(13.0 * 12.0/2),
-    new CentripetalAccelerationConstraint(25.0 * 12.0/2)
+    new MaxVelocityConstraint(12.0 * 12.0),
+    new MaxAccelerationConstraint(13.0 * 12.0),
+    new CentripetalAccelerationConstraint(25.0 * 12.0)
   };
 
   private HolonomicMotionProfiledTrajectoryFollower follower;

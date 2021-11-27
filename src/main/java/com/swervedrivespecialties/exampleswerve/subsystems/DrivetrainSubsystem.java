@@ -29,10 +29,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private static final double TRACKWIDTH = 21.5;
     private static final double WHEELBASE = 23.5;
 
-    private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(147.0);//0.0);//60.6);//60.7
-    private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(146.7);//141.2);//139.1
-    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(70.9);//60.6);//60.7
-    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(314.6);//60.3);//60.7
+    private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(146.7);//0.0);//60.6);//60.7
+    private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(147.0);//141.2);//139.1
+    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(314.6);//60.6);//60.7
+    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(70.9);//60.3);//60.7
 
     private static DrivetrainSubsystem instance;
 
@@ -121,6 +121,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         frontRightModule.updateState(TimedRobot.kDefaultPeriod);
         backLeftModule.updateState(TimedRobot.kDefaultPeriod);
         backRightModule.updateState(TimedRobot.kDefaultPeriod);
+
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldOriented) {
@@ -142,6 +143,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public void resetGyroscope() {
         gyroscope.setAdjustmentAngle(gyroscope.getUnadjustedAngle());
+        odometry.resetPosition(new Pose2d(), Rotation2d.fromDegrees(gyroscope.getAngle().toDegrees()));
     }
 
     private SwerveModuleState getCurrentState(SwerveModule mod){
