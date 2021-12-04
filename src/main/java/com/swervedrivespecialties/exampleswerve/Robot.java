@@ -29,7 +29,6 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit(){
         _logData.log(true, false, "Velocity", drivetrain.getKinematicVelocity().length);
-        CommandScheduler.getInstance().schedule(new DriveAtPercent(1.0));
     }
 
     @Override

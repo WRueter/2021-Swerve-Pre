@@ -40,7 +40,7 @@ public class LogData {
             outputFormatter.setTimeZone(TimeZone.getTimeZone("US/Eastern")); 
             String fileName = outputFormatter.format(new Date());
             try {
-                _writer = new PrintWriter(new File("/media/sda1/" + fileName + ".tsv"));
+                _writer = new PrintWriter(new File("/media/sda1/" + inputName + fileName + ".tsv"));
                 
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block

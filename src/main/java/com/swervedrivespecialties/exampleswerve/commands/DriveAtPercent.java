@@ -15,7 +15,7 @@ public class DriveAtPercent extends CommandBase {
   public DriveAtPercent(double percent) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(DrivetrainSubsystem.getInstance());
-    fwd = new Translation2d(Math.pow(percent, 2.0), 0);
+    fwd = new Translation2d(percent, 0);
   }
 
   // Called when the command is initially scheduled.

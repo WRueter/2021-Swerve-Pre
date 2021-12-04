@@ -38,32 +38,51 @@ public class TestAutoDrive extends CommandBase {
   double dt;
 
   //--PID CONSTANTS--\\
-  private static double kInterceptVoltage = 0.21757089186024456;//0.014857233341018905 * 5;
-  private static double kPathFollowingVelocityFeedForward = 0.006096860014174834;
-  private static double kPathFollowingAccelFeedForward = 0;
+  private static double kInterceptVoltage = 0.036368916875838035;//0.04422471929595917;//0.21757089186024456;//0.014857233341018905 * 5;
+  private static double kPathFollowingVelocityFeedForward = 0.006653587782016155;//0.006626004633618817;//0.006096860014174834;
+  private static double kPathFollowingAccelFeedForward = 0;//0.0007216306379892838;//0;
   // T = Path Following Translation PID Constant
-  private static double kT_P;
-  private static double kT_I;
-  private static double kT_D;
+  private static double kT_P = 0.0;
+  private static double kT_I = 0.0;
+  private static double kT_D = 0.0;
   // R = Path Following Rotation PID Constant
-  private static double kR_P;
-  private static double kR_I;
-  private static double kR_D;
+  private static double kR_P = 0.0;
+  private static double kR_I = 0.0;
+  private static double kR_D = 0.0;
   //-----------------\\
 
   /*
+  OLD (AND WRONG)--- 
   Velocity Feed Forward: 0.006096860014174834
   Acceleration Feed Forward: 0
   Static Feed Forward: 0.21757089186024456
   R-Squared: 0.9582200000000001
   Computation Time: 1407.1136412
+  ------
+  NEW (WITH ACCEL)--
+  Velocity Feed Forward: 0.006626004633618817
+  Acceleration Feed Forward: 0.0007216306379892838
+  Static Feed Forward: 0.04422471929595917
+  R-Squared: 0.9325800000000001
+  Computation Time: 0.04967330000000003
+  ------------------
+  NEW (WITHOUT ACCEL)--
+  Velocity Feed Forward: 0.006653587782016155
+  Acceleration Feed Forward: 0
+  Static Feed Forward: 0.036368916875838035
+  R-Squared: 0.9915100000000001
+  Computation Time: 1716.5102539
+  ---------------------
   */
 
-  private static final PidConstants FOLLOWER_TRANSLATION_PID = new PidConstants(0.0, 0.0, 0.0);
-  private static final PidConstants FOLLOWER_ROTATION_PID = new PidConstants(0.0, 0.0, 0.0);
+  private static final PidConstants FOLLOWER_TRANSLATION_PID = new PidConstants(kT_P, kT_I, kT_D);
+  private static final PidConstants FOLLOWER_ROTATION_PID = new PidConstants(kR_P, kR_I, kR_D);
   private static final HolonomicFeedforward FOLLOWER_HOLONOMIC_FEEDFORWARD = new HolonomicFeedforward(
-          new DrivetrainFeedforwardConstants(kPathFollowingVelocityFeedForward, kPathFollowingAccelFeedForward, kInterceptVoltage)
-  );
+          new DrivetrainFeedforwardConstants(
+            kPathFollowingVelocityFeedForward, 
+            kPathFollowingAccelFeedForward, 
+            kInterceptVoltage)
+        );
 
   private Trajectory testTrajectory;
   public TestAutoDrive() {
