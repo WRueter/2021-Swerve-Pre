@@ -1,6 +1,7 @@
 package com.swervedrivespecialties.exampleswerve;
 
 import com.swervedrivespecialties.exampleswerve.Util.LogData;
+import com.swervedrivespecialties.exampleswerve.commands.DriveAtPercent;
 import com.swervedrivespecialties.exampleswerve.commands.DriveCommand;
 import com.swervedrivespecialties.exampleswerve.commands.TestAutoDrive;
 import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
@@ -28,6 +29,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit(){
         _logData.log(true, false, "Velocity", drivetrain.getKinematicVelocity().length);
+        CommandScheduler.getInstance().schedule(new DriveAtPercent(1.0));
     }
 
     @Override

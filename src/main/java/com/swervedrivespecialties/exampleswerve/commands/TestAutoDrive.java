@@ -37,10 +37,32 @@ public class TestAutoDrive extends CommandBase {
   double timestamp;
   double dt;
 
+  //--PID CONSTANTS--\\
+  private static double kInterceptVoltage = 0.21757089186024456;//0.014857233341018905 * 5;
+  private static double kPathFollowingVelocityFeedForward = 0.006096860014174834;
+  private static double kPathFollowingAccelFeedForward = 0;
+  // T = Path Following Translation PID Constant
+  private static double kT_P;
+  private static double kT_I;
+  private static double kT_D;
+  // R = Path Following Rotation PID Constant
+  private static double kR_P;
+  private static double kR_I;
+  private static double kR_D;
+  //-----------------\\
+
+  /*
+  Velocity Feed Forward: 0.006096860014174834
+  Acceleration Feed Forward: 0
+  Static Feed Forward: 0.21757089186024456
+  R-Squared: 0.9582200000000001
+  Computation Time: 1407.1136412
+  */
+
   private static final PidConstants FOLLOWER_TRANSLATION_PID = new PidConstants(0.0, 0.0, 0.0);
   private static final PidConstants FOLLOWER_ROTATION_PID = new PidConstants(0.0, 0.0, 0.0);
   private static final HolonomicFeedforward FOLLOWER_HOLONOMIC_FEEDFORWARD = new HolonomicFeedforward(
-          new DrivetrainFeedforwardConstants(1/(14.0 * 12.0), 0.0, 0.0)
+          new DrivetrainFeedforwardConstants(kPathFollowingVelocityFeedForward, kPathFollowingAccelFeedForward, kInterceptVoltage)
   );
 
   private Trajectory testTrajectory;
@@ -50,7 +72,7 @@ public class TestAutoDrive extends CommandBase {
     Path sixFtLine = new Path(Rotation2.ZERO);
     sixFtLine.addSegment(new PathLineSegment(
     new Vector2(0.0, 0.0),
-    new Vector2(120, 0.0)));
+    new Vector2(100, 0.0)));
     testTrajectory = new Trajectory(0.0, 0.0, sixFtLine, CONSTRAINTS);
   }
 
