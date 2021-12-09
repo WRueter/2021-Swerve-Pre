@@ -14,6 +14,7 @@ import org.frcteam2910.common.control.ITrajectoryConstraint;
 import org.frcteam2910.common.control.MaxAccelerationConstraint;
 import org.frcteam2910.common.control.MaxVelocityConstraint;
 import org.frcteam2910.common.control.Path;
+import org.frcteam2910.common.control.PathArcSegment;
 import org.frcteam2910.common.control.PathLineSegment;
 import org.frcteam2910.common.control.PidConstants;
 import org.frcteam2910.common.control.Trajectory;
@@ -26,6 +27,7 @@ import org.frcteam2910.common.util.HolonomicFeedforward;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class TestAutoDrive extends CommandBase {
@@ -37,14 +39,16 @@ public class TestAutoDrive extends CommandBase {
   double timestamp;
   double dt;
 
+  private Trajectory _traj;
+
   //--PID CONSTANTS--\\
   private static double kInterceptVoltage = 0.036368916875838035;//0.04422471929595917;//0.21757089186024456;//0.014857233341018905 * 5;
   private static double kPathFollowingVelocityFeedForward = 0.006653587782016155;//0.006626004633618817;//0.006096860014174834;
   private static double kPathFollowingAccelFeedForward = 0;//0.0007216306379892838;//0;
   // T = Path Following Translation PID Constant
-  private static double kT_P = 0.0;
+  private static double kT_P = .00125 * 5.75;
   private static double kT_I = 0.0;
-  private static double kT_D = 0.0;
+  private static double kT_D = kT_P*1.5;
   // R = Path Following Rotation PID Constant
   private static double kR_P = 0.0;
   private static double kR_I = 0.0;
@@ -88,11 +92,13 @@ public class TestAutoDrive extends CommandBase {
   public TestAutoDrive() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(_drive);
+    Path arc = new Path(Rotation2.ZERO);
+    arc.addSegment(new PathArcSegment(new Vector2(0, 0), new Vector2(50,-50), new Vector2(35, -15)));
     Path sixFtLine = new Path(Rotation2.ZERO);
     sixFtLine.addSegment(new PathLineSegment(
     new Vector2(0.0, 0.0),
-    new Vector2(100, 0.0)));
-    testTrajectory = new Trajectory(0.0, 0.0, sixFtLine, CONSTRAINTS);
+    new Vector2(120, 0.0)));
+    testTrajectory = new Trajectory(0.0, 0.0, arc, CONSTRAINTS);
   }
 
   public static final ITrajectoryConstraint[] CONSTRAINTS = {
@@ -124,6 +130,13 @@ public class TestAutoDrive extends CommandBase {
     } else{
       holonomicDrive(new HolonomicDriveSignal(Vector2.ZERO, 0.0, true));
     }
+    if(follower.getCurrentTrajectory().isPresent()){
+      _traj = follower.getCurrentTrajectory().get();
+      SmartDashboard.putNumber("Pos Error", _traj.calculateSegment(_traj.getDuration()).translation.subtract(_drive.getKinematicPosition()).length);
+      SmartDashboard.putNumber("Real Pos", _drive.getKinematicPosition().length);
+    }
+
+    
   }
 
 
